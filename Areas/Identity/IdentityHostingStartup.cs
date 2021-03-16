@@ -1,0 +1,28 @@
+﻿using System;
+using InstaMel.Areas.Identity.Data;
+using InstaMel.Data;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+[assembly: HostingStartup(typeof(InstaMel.Areas.Identity.IdentityHostingStartup))]
+namespace InstaMel.Areas.Identity
+{
+    public class IdentityHostingStartup : IHostingStartup
+    {
+        public void Configure(IWebHostBuilder builder)
+        {
+            builder.ConfigureServices((context, services) => {
+                services.AddDbContext<InstaMelContext>(options =>
+                    options.UseSqlServer(
+                        context.Configuration.GetConnectionString("InstaMelContextConnection")));
+
+                services.AddDefaultIdentity<InstaMelUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                    .AddEntityFrameworkStores<InstaMelContext>();
+            });
+        }
+    }
+}
