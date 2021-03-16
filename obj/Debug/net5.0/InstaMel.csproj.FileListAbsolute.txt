@@ -194,3 +194,5 @@ C:\Users\alyf\source\repos\InstaMel\InstaMel\obj\Debug\net5.0\Razor\Areas\Identi
 C:\Users\alyf\source\repos\InstaMel\InstaMel\obj\Debug\net5.0\Razor\Areas\Identity\Pages\_ViewImports.cshtml.g.cs
 C:\Users\alyf\source\repos\InstaMel\InstaMel\obj\Debug\net5.0\Razor\Areas\Identity\Pages\_ViewStart.cshtml.g.cs
 C:\Users\alyf\source\repos\InstaMel\InstaMel\obj\Debug\net5.0\Razor\Views\Shared\_LoginPartial.cshtml.g.cs
+C:\Users\alyf\source\repos\InstaMel\InstaMel\obj\Debug\net5.0\InstaMel.csprojAssemblyReference.cache
+C:\Users\alyf\source\repos\InstaMel\InstaMel\obj\Debug\net5.0\Razor\Views\Profiles\CreateProfile.cshtml.g.cs
