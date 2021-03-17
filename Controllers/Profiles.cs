@@ -1,4 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using InstaMel.Areas.Identity.Data;
+using InstaMel.Classes;
+using InstaMel.Data;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,10 +15,25 @@ namespace InstaMel.Controllers
 {
     public class Profiles : Controller
     {
+        private readonly IWebHostEnvironment host;
+        private readonly UserManager<InstaMelUser> manager;
+        private readonly InstaMelContext db;
+        CBase cb; 
+        public Profiles(IWebHostEnvironment _Host, UserManager<InstaMelUser> _Manager, InstaMelContext _Db)
+        {
+            host = _Host;
+            manager = _Manager;
+            db = _Db;
+            cb = new CBase(host, manager, db);
+        }
+
+
         public IActionResult Index()
         {
             return View();
         }
+
+        [Authorize]
         public IActionResult CreateProfile()
         {
             return View();
@@ -21,7 +42,19 @@ namespace InstaMel.Controllers
         [HttpPost]
         public IActionResult CreateProfile(string Name, string Bio, IFormFile Photo )
         {
+            cb.SaveImage(Photo);
+            var u = cb.GetCurrentUser(User);
+            u.Bio = Bio;
+            u.Name = Name;
+            u.Photo = Photo.FileName;
+            cb.SaveUser(u);
             return View();
+        }
+
+        [Authorize]
+        public IActionResult Myprofile()
+        {
+            return View(cb.GetCurrentUser(User));
         }
     }
 }

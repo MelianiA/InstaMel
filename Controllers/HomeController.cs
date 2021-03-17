@@ -27,8 +27,6 @@ namespace InstaMel.Controllers
         {
             return View();
         }
-
-        
        
     }
 }

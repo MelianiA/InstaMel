@@ -1,21 +1,32 @@
-﻿.SearchDiv{
-    float:right;
-    border-radius:4px;
-    border: 1px solid silver ;
+﻿.SearchDiv {
+    float: right;
+    border-radius: 4px;
+    border: 1px solid silver;
     padding: 4px;
     text-align: center;
-    font-size:10pt;
+    font-size: 10pt;
 }
 
-.SearchDiv input{
-    border:0;
+    .SearchDiv input {
+        border: 0;
+    }
+
+        .SearchDiv input:focus {
+            border: 0;
+            outline: none
+        }
+
+
+.inputeError {
+    border: 1px solid red;
 }
 
-.SearchDiv input:focus{
-    border:0;
-    outline:none
+.profilePhoto {
+    width: 150px;
+    height: 150px;
+    border-radius: 75px;
+    object-fit: cover;
+    margin-right: 25px;
 }
 
-.inputeError{
-    border:1px solid red;
-}
+ 

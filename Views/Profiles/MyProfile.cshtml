@@ -1,0 +1,28 @@
+﻿@section Styles{
+    <style>
+        body {
+            background-color: #FAFAFA
+        }
+    </style>
+}
+
+@model InstaMel.Areas.Identity.Data.InstaMelUser
+<table>
+    <tr>
+        <td rowspan="2">
+            <img src="~/Uploads/@Model.Photo" class="profilePhoto" />
+        </td>
+        <td>
+            <h3>
+                @Model.Name
+            </h3>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p>
+                @Model.Bio
+            </p>
+        </td>
+    </tr>
+</table>
