@@ -56,5 +56,16 @@ namespace InstaMel.Controllers
         {
             return View(cb.GetCurrentUser(User));
         }
+
+        [HttpPost]
+        public IActionResult EditProfile(string Name, string Bio)
+        {
+            var u = cb.GetCurrentUser(User);
+            u.Bio = Bio;
+            u.Name = Name;
+            cb.SaveUser(u);
+
+            return RedirectToAction("MyProfile");
+        }
     }
 }
