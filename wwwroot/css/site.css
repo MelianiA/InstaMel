@@ -29,4 +29,10 @@
     margin-right: 25px;
 }
 
- 
+.loginPhoto {
+    width: 35px;
+    height: 35px;
+    border-radius: 75px;
+    object-fit: cover;
+    margin-right: 25px;
+}

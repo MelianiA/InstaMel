@@ -23,6 +23,11 @@ namespace InstaMel.Classes
             manager = _Manager;
             db = _Db;
         }
+        public CBase(  UserManager<InstaMelUser> _Manager, InstaMelContext _Db)
+        {
+            manager = _Manager;
+            db = _Db;
+        }
 
         public void SaveImage(IFormFile File)
         {
