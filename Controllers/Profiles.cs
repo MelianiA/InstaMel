@@ -67,5 +67,15 @@ namespace InstaMel.Controllers
 
             return RedirectToAction("MyProfile");
         }
+
+        [HttpPost]
+        public async Task<bool> chPass(string oldPass, string newPass)
+        {
+            var u = cb.GetCurrentUser(User);
+            var result = await manager.ChangePasswordAsync(u, oldPass, newPass);
+
+
+            return result.Succeeded;
+        }
     }
 }

@@ -43,7 +43,7 @@
         </td>
     </tr>
     <tr>
-        <td >
+        <td>
             <div style="margin-left:15px">
                 <p style="max-width:75px">
                     @Model.Bio
@@ -58,30 +58,119 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Edit profile</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" data-dismiss="modal" >&times;</span>
+                </button>
             </div>
-            <form method="post" asp-controller="Profiles" asp-action="EditProfile" enctype="multipart/form-data">
-                <div class="modal-body">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">General infos</button>
+                    <button class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Password</button>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <form method="post" asp-controller="Profiles" asp-action="EditProfile" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div class="form-group" style="margin-bottom:5px">
+                                <label> Name: </label>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" name="Name" id="Name" value="@Model.Name" />
+                            </div>
 
+                            <div class="form-group" style="margin-bottom:5px">
+                                <label> Bio: </label>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" rows="@Model.Bio.Split('\n').Count()" name="Bio" id="Bio">@Model.Bio</textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" style="padding:10px">
                     <div class="form-group" style="margin-bottom:5px">
-                        <label> Name: </label>
+                        <label> Current password: </label>
                     </div>
                     <div class="form-group">
-                        <input class="form-control" name="Name" id="Name" value="@Model.Name" />
-                    </div>
-
-                    <div class="form-group" style="margin-bottom:5px">
-                        <label> Bio: </label>
+                        <input type="password" class="form-control" autocomplete="new-password" id="oldPass" oninput="removeError(oldPass, p1)" />
+                        <p class="text-danger" style="font-size:9pt; display:none;" id="p1"> Current password is require</p>
+                    </div> <div class="form-group" style="margin-bottom:5px">
+                        <label> New password: </label>
                     </div>
                     <div class="form-group">
-                        <textarea class="form-control" name="Bio" id="Bio" >@Model.Bio</textarea>
+                        <input type="password" class="form-control" autocomplete="off" id="newPass" oninput="removeError(newPass, p2)" />
+                        <p class="text-danger" style="font-size:9pt; display:none;" id="p2"> New password most be long than 6 chars</p>
+                    </div> <div class="form-group" style="margin-bottom:5px">
+                        <label> Confirm password: </label>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" autocomplete="off" id="confirmPass" oninput="removeError(confirmPass, p3)" />
+                        <p class="text-danger" style="font-size: 9pt;display: none;" id="p3"> New password is not equal to the confirm password</p>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-            </form>
+            </div>
+
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script>
+        $("#chPass").on("click", function () {
+            var oldPass = document.getElementById("oldPass");
+            var newPass = document.getElementById("newPass");
+            var confirmPass = document.getElementById("confirmPass");
+
+            if (oldPass.value.replace(" ", "") == '') {
+                oldPass.classList.add("inputeError");
+                document.getElementById('p1').style.display = "block";
+                return false;
+            }
+            if (newPass.value.length < 6) {
+                newPass.classList.add("inputeError");
+                document.getElementById('p2').style.display = "block";
+                return false;
+            }
+            if (newPass.value != confirmPass.value) {
+                confirmPass.classList.add("inputeError");
+                newPass.classList.add("inputeError");
+                document.getElementById('p3').style.display = "block";
+                return false;
+            }
+
+            $.ajax({
+                url:'/Profiles/chPass',
+                type: 'post',
+                data: { oldPass: oldPass.value, newPass: newPass.value },
+                success: function (res) {
+
+                    if (Boolean(res) == true) {
+                        alert("Change password success");
+                        $("#EdProfile").modal("hide");
+                    }
+                    else {
+                        oldPass.classList.add("inputeError");
+                    }
+                }
+            });
+
+        });
+
+        function removeError(inp, p) {
+            inp.classList.remove('inputeError');
+            p.style.display = "none";
+        }
+    </script>
+
+}
